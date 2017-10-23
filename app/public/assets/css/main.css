@@ -10,3 +10,7 @@ html, body {
 .lead {
 	font-size: 25px;
 }
+
+.chosen-select {
+	display: none;
+}
