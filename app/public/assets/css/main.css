@@ -1,0 +1,12 @@
+.jumbotron {
+	background-color: #EEEEEE;
+}
+
+html, body {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 15px;
+}
+
+.lead {
+	font-size: 25px;
+}
