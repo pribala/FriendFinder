@@ -11,6 +11,8 @@ html, body {
 	font-size: 25px;
 }
 
-.chosen-select {
-	display: none;
+h3 {
+	font-weight: bold;
 }
+
+
