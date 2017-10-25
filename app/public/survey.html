@@ -101,6 +101,25 @@
 		  </div>
 		  <button type="submit" class="btn btn-info btn-lg btn-block mt-4" id="submitData"><i class="fa fa-check-circle" aria-hidden="true"></i> Submit</button>
 		</form>
+		<!-- Modal -->
+		<div class="modal fade" id="matchInfo" tabindex="-1" role="dialog" aria-labelledby="matchInfoTitle" aria-hidden="true">
+		  <div class="modal-dialog modal-sm" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="matchInfoTitle">Your Match</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 	</div>
 	<footer class="footer text-center">
 		<div class="container align-middle">
@@ -146,14 +165,9 @@
 		    $("#submitData").on("click", function(event) {
 		      event.preventDefault();
 		      // Here we grab the form elements
-		   //    	var answers = 		
-		   //    	$("#question1").val()+","+ $("#question2").val()+","+$("#question3").val()+","+$("#question4").val()+","+$("#question5").val()+","+$("#question6").val()+","+$("#question7").val()+","+$("#question8").val()+","+$("#question9").val()+","+$("#question10").val();
-		   //     var scores = answers.split(",").map(function(item) {
-    	// 				return parseInt(item, 10);
-					// });
-		      var answers = [		
+		      var scores = [		
 		      	$("#question1").val(), $("#question2").val(), $("#question3").val(), $("#question4").val(), $("#question5").val(), $("#question6").val(), $("#question7").val(), $("#question8").val(), $("#question9").val(), $("#question10").val() ];
-		      var scores = answers.map(Number);	
+		      // var scores = answers.map(Number);	
 		      var newFriend = {
 		        name: $("#name").val().trim(),
 		        photo: $("#photoLink").val().trim(),
@@ -165,8 +179,11 @@
 		      // depending on if a tables is available or not.
 		      $.post("/api/friends", newFriend,
 		        function(data) {
-		          // load tables page upon completion
-		          //window.location = "/survey"
+		          // show modal with picture of matching friend
+		          $('.modal-body').append("<h4 class='text-center'>"+data.name+"</h4>");
+		          $('.modal-body').append("<div><img src='"+data.photo+"' class='img-fluid'></div");
+		          //$('.modal-body').append("<p>"+data.photo+"</p>");
+		          $('#matchInfo').modal('show');
 		       });
 		    });
 		});
