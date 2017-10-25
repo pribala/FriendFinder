@@ -213,7 +213,7 @@
 			          //$('.modal-body').append("<p>"+data.photo+"</p>");
 			          $('#matchInfo').modal('toggle');
 			       });
-			  	}else {
+			   	}else {
 			  		//add popover
 			  		var content = "Fill out all the fields before submitting!";
             		$(this).popover({placement: "left", container: "body", delay: 0, trigger: "click", content:content});
@@ -224,6 +224,12 @@
 			  	}
 			  	return false;
 		    });
+
+		    $('#matchInfo').on('hidden.bs.modal', function (e) {
+			  // do something...
+			  e.preventDefault();
+			  window.location = "/";
+			});
 		});
 	</script>
 </body>
