@@ -7,7 +7,8 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
 	
 	<link rel="stylesheet" href="assets/css/main.css">
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
+	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 	<script src="https://use.fontawesome.com/c4965b9a48.js"></script>
@@ -98,7 +99,7 @@
 			  <option></option>
 			</select>
 		  </div>
-		  <button type="submit" class="btn btn-info btn-lg btn-block mt-4"><i class="fa fa-check-circle" aria-hidden="true"></i> Submit</button>
+		  <button type="submit" class="btn btn-info btn-lg btn-block mt-4" id="submitData"><i class="fa fa-check-circle" aria-hidden="true"></i> Submit</button>
 		</form>
 	</div>
 	<footer class="footer text-center">
@@ -108,13 +109,66 @@
 	</footer>
 	<script>
 		$(document).ready(function() {
-			var options = ["1 (Strongly Disagree)", "2", "3", "4", "5 (Strongly Agree)"];
+			var data = [
+			    {
+			        id: 1,
+			        text: '1 (Strongly Disagree)'
+			    },
+			    {
+			        id: 2,
+			        text: '2'
+			    },
+			    {
+			        id: 3,
+			        text: '3'
+			    },
+			    {
+			        id: 4,
+			        text: '4'
+			    },
+			    {
+			        id: 5,
+			        text: '5 (Strongly Agree)'
+			    }
+			];
+
 			$(".chosen").select2({
-			 data: options,
+			 data: data,
 			 placeholder: "Select an option",
 	    	 allowClear: true,
 	    	 theme: "classic"
 			});
+	    
+		    // In this code below we create the Front-end JavaScript which "POSTS" our form data to our express server.
+    		// In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
+		    // Our api recognizes the route (/api/friends)... and then runs the associated code (found in apiRoutes.js).
+		    // In this case the associated code "saves" the data to the friends.js file
+		    $("#submitData").on("click", function(event) {
+		      event.preventDefault();
+		      // Here we grab the form elements
+		   //    	var answers = 		
+		   //    	$("#question1").val()+","+ $("#question2").val()+","+$("#question3").val()+","+$("#question4").val()+","+$("#question5").val()+","+$("#question6").val()+","+$("#question7").val()+","+$("#question8").val()+","+$("#question9").val()+","+$("#question10").val();
+		   //     var scores = answers.split(",").map(function(item) {
+    	// 				return parseInt(item, 10);
+					// });
+		      var answers = [		
+		      	$("#question1").val(), $("#question2").val(), $("#question3").val(), $("#question4").val(), $("#question5").val(), $("#question6").val(), $("#question7").val(), $("#question8").val(), $("#question9").val(), $("#question10").val() ];
+		      var scores = answers.map(Number);	
+		      var newFriend = {
+		        name: $("#name").val().trim(),
+		        photo: $("#photoLink").val().trim(),
+		        scores: scores
+		      };
+		      console.log(newFriend);
+		      // We give the post method a URL, the object we want to send, then we have a "callback".
+		      // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+		      // depending on if a tables is available or not.
+		      $.post("/api/friends", newFriend,
+		        function(data) {
+		          // load tables page upon completion
+		          //window.location = "/survey"
+		       });
+		    });
 		});
 	</script>
 </body>
