@@ -1,5 +1,8 @@
 .jumbotron {
-	background-color: #EEEEEE;
+	/*background-color: #EEEEEE;*/
+	background-color: #0F9D71;
+	border-radius: 20px;
+	color: white;
 }
 
 html, body {
@@ -22,10 +25,29 @@ h3 {
 }
 
 footer {
-  font-size: 10px;
+  font-size: 15px;
   padding-top: 20px;
   min-height: 10%;
   overflow: auto;
+  color: #685A96;
 }
 
+.btn {
+	background-color: #685A96;
+	color: white;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: white;
+}
+
+.navLink:link,
+.navLink:visited,
+.navLink:hover,
+.navLink:active {
+	color: #685A96;
+}
 

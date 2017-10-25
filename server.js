@@ -8,7 +8,9 @@ var path = require("path");
 // =============================================================
 var app = express();
 var PORT = process.env.PORT || 3000;
-
+// To serve static files such as images, CSS files, and JavaScript 
+// files, use the express.static built-in middleware function in Express.
+app.use(express.static(path.join(__dirname, 'app/public')));
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
