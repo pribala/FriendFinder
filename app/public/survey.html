@@ -106,7 +106,7 @@
 		  <div class="modal-dialog modal-sm" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <h5 class="modal-title" id="matchInfoTitle">Your Match</h5>
+		        <h5 class="modal-title" id="matchInfoTitle">Best Match</h5>
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		          <span aria-hidden="true">&times;</span>
 		        </button>
@@ -183,7 +183,7 @@
 		          $('.modal-body').append("<h4 class='text-center'>"+data.name+"</h4>");
 		          $('.modal-body').append("<div><img src='"+data.photo+"' class='img-fluid'></div");
 		          //$('.modal-body').append("<p>"+data.photo+"</p>");
-		          $('#matchInfo').modal('show');
+		          $('#matchInfo').modal('toggle');
 		       });
 		    });
 		});
