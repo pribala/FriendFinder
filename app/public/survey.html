@@ -22,11 +22,11 @@
 		  <h3>About You</h3>	
 		  <div class="form-group">
 		    <label for="name"><h4>Name (Required)</h4></label>
-		    <input type="text" class="form-control" id="name" placeholder="Enter your name">
+		    <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
 		  </div>
 		  <div class="form-group">
 		    <label for="photoLink"><h4>Link to Photo Image (Required)</h4></label>
-		    <input type="text" class="form-control" id="photoLink" placeholder="Enter link to photo image">
+		    <input type="text" class="form-control" id="photoLink" placeholder="Enter link to photo image" required>
 		  </div>
 		  <hr class="my-4">
 		  <h3 class="mt-4">Question 1</h3>
@@ -177,7 +177,8 @@
 		      // We give the post method a URL, the object we want to send, then we have a "callback".
 		      // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
 		      // depending on if a tables is available or not.
-		      $.post("/api/friends", newFriend,
+		      var currentURL = window.location.origin;
+		      $.post(currentURL+"/api/friends", newFriend,
 		        function(data) {
 		          // show modal with picture of matching friend
 		          $('.modal-body').append("<h4 class='text-center'>"+data.name+"</h4>");
