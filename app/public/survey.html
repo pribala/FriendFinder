@@ -7,12 +7,14 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
 	
 	<link rel="stylesheet" href="/assets/css/main.css">
-	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 	<script src="https://use.fontawesome.com/c4965b9a48.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+	<link rel="stylesheet" href="/assets/css/validator.css">
+	<script src="/assets/javascript/validator.js"></script>
 </head>
 <body>
 	<div class="container wrapper pb-4 px-5">
@@ -22,11 +24,18 @@
 		  <h3>About You</h3>	
 		  <div class="form-group mt-4">
 		    <label for="name"><h4>Name (Required)</h4></label>
-		    <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+		    <input type="text" data-required="true"
+            class="form-control" id="name" placeholder="Enter your name" required>
+            <span class="help-block error--required">
+			  Please fill out this field
+			</span>
 		  </div>
 		  <div class="form-group">
 		    <label for="photoLink"><h4>Link to Photo Image (Required)</h4></label>
-		    <input type="text" class="form-control" id="photoLink" placeholder="Enter link to photo image" required>
+		    <input type="text" class="form-control" id="photoLink" placeholder="Enter link to photo image" data-required="true" required>
+		    <span class="help-block error--required">
+			  Please fill out this field
+			</span>
 		  </div>
 		  <hr class="my-4">
 		  <h3 class="mt-4">Question 1</h3>
@@ -129,6 +138,7 @@
 	</footer>
 	<script>
 		$(document).ready(function() {
+			 $('form').validator();
 			var data = [
 			    {
 			        id: 1,
@@ -152,6 +162,21 @@
 			    }
 			];
 
+			function validateForm() {
+				var isValid = true;
+				$('.form-control').each(function() {
+					 if($(this).val() === "") {
+					  isValid = false;
+					}
+				});
+				$('.chosen').each(function() {
+					  if($(this).val() === "") {
+					  isValid = false;
+					}
+				});
+				return isValid;
+			}
+
 			$(".chosen").select2({
 			 data: data,
 			 placeholder: "Select an option",
@@ -165,28 +190,39 @@
 		    // In this case the associated code "saves" the data to the friends.js file
 		    $("#submitData").on("click", function(event) {
 		      event.preventDefault();
-		      // Here we grab the form elements
-		      var scores = [		
-		      	$("#question1").val(), $("#question2").val(), $("#question3").val(), $("#question4").val(), $("#question5").val(), $("#question6").val(), $("#question7").val(), $("#question8").val(), $("#question9").val(), $("#question10").val() ];
-		      // var scores = answers.map(Number);	
-		      var newFriend = {
-		        name: $("#name").val().trim(),
-		        photo: $("#photoLink").val().trim(),
-		        scores: scores
-		      };
-		      console.log(newFriend);
-		      // We give the post method a URL, the object we want to send, then we have a "callback".
-		      // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
-		      // depending on if a tables is available or not.
-		      var currentURL = window.location.origin;
-		      $.post(currentURL+"/api/friends", newFriend,
-		        function(data) {
-		          // show modal with picture of matching friend
-		          $('.modal-body').append("<h4 class='text-center'>"+data.name+"</h4>");
-		          $('.modal-body').append("<div><img src='"+data.photo+"' class='img-fluid'></div");
-		          //$('.modal-body').append("<p>"+data.photo+"</p>");
-		          $('#matchInfo').modal('toggle');
-		       });
+		      if(validateForm() === true) {
+			      // Here we grab the form elements
+			       var scores = [		
+			      	$("#question1").val(), $("#question2").val(), $("#question3").val(), $("#question4").val(), $("#question5").val(), $("#question6").val(), $("#question7").val(), $("#question8").val(), $("#question9").val(), $("#question10").val() ];
+			      // var scores = answers.map(Number);	
+			      var newFriend = {
+			        name: $("#name").val().trim(),
+			        photo: $("#photoLink").val().trim(),
+			        scores: scores
+			      };
+			      console.log(newFriend);
+			      // We give the post method a URL, the object we want to send, then we have a "callback".
+			      // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+			      // depending on if a tables is available or not.
+			      var currentURL = window.location.origin;
+			      $.post(currentURL+"/api/friends", newFriend,
+			        function(data) {
+			          // show modal with picture of matching friend
+			          $('.modal-body').append("<h4 class='text-center'>"+data.name+"</h4>");
+			          $('.modal-body').append("<div><img src='"+data.photo+"' class='img-fluid'></div");
+			          //$('.modal-body').append("<p>"+data.photo+"</p>");
+			          $('#matchInfo').modal('toggle');
+			       });
+			  	}else {
+			  		//add popover
+			  		var content = "Fill out all the fields before submitting!";
+            		$(this).popover({placement: "left", container: "body", delay: 0, trigger: "click", content:content});
+			  		$(this).popover('show');
+			  		setTimeout(function () {
+			            $('.popover').fadeOut('slow');
+			        }, 3000);
+			  	}
+			  	return false;
 		    });
 		});
 	</script>

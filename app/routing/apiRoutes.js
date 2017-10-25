@@ -22,9 +22,9 @@ module.exports = function(app) {
 function compatibilityTest(curObj) {
 	var curObjScores = curObj.scores.map(Number);
 	var totalDifference = 0;
-	var minDiff = 10000;
+	// Take an large initial value so the first total is less than it
+	var minDiff = 100;
 	var compatible = {};
-	var counter = [];
 	for(var j=0; j<friends.length; j++){
 		totalDifference = 0;
 		for(var i=0;i<friends[j].scores.length; i++){
@@ -34,11 +34,6 @@ function compatibilityTest(curObj) {
 			minDiff = totalDifference;
 			compatible = friends[j];
 		}
-		//totalDifference.push({"name":friends[j].name, "total":total});
-		counter.push(totalDifference);
 	};
-	console.log(minDiff);
-	console.log(compatible.name);
-	console.log(counter);
 	return compatible;
 }
