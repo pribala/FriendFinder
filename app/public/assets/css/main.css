@@ -22,6 +22,9 @@ h3 {
 .wrapper {
 	min-height: 90%;
 	margin-bottom: 30px;
+	background-color: #FFFFCC;
+	border-radius: 15px;
+	border: 1px solid #685A96;
 }
 
 footer {
